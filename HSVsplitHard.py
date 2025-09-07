@@ -4,6 +4,30 @@ import os
 import time
 from tqdm import tqdm
 
+#
+#
+# The overall processing pipeline in this file is as follows:
+#
+#
+# Each frame is split into two copies which are then passed through separate HSV masks.
+#
+# --- The first mask filters for saturated pixels and outputs an intially noisy binary mask.
+#  |----- This is passed through a Gaussian blur to smooth the mask and prepare for another binary threshold to get rid of some of the very small noise pixels
+#  |----- I then use morphological operations to get rid of any remaining small noise pixels and patch any gaps around the polygons. This isn't entirely necessary in this case since the HSV mask is already quite accurate with brightly colored shapes, but in general this step is good to have.
+#  |----------- The morphological operations include an opening (erosion followed by dilation) and closing (dilation followed by erosion), both with a 9x9 circular kernel)
+#
+# --- The second mask filters for unsaturated pixels of any value
+#  |----- 
+#
+
+
+#
+#
+# You can run this file by modifying the paths for "input_video" and "output_base_folder" at the bottom and running "python HSVsplitHard.py" (or python3) in terminal
+# 
+#
+
+
 def process_video_for_shapes_and_steps(input_video_path, output_folder):
     # --- 1. Ensure the output folder exists ---
     try:
@@ -107,7 +131,7 @@ def process_video_for_shapes_and_steps(input_video_path, output_folder):
 
         frame_rgb = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2RGB) # Keep an RGB version for combined_mask display
 
-        # --- Process for Cleaned HSV Mask (hsv_binaries from Jupyter) ---
+        # --- Process for Cleaned HSV Mask ---
         frame_hsv = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2HSV)
         hsv_mask_initial = cv2.inRange(frame_hsv, lower_hsv_mask1, upper_hsv_mask1)
         blurred_hsv = cv2.GaussianBlur(hsv_mask_initial, (11, 11), 0)
@@ -119,7 +143,7 @@ def process_video_for_shapes_and_steps(input_video_path, output_folder):
         if "hsv_mask" in video_writers:
             video_writers["hsv_mask"].write(clean_hsv_mask)
 
-        # --- Process for Isolated Trapezoid Mask (final_masks from Jupyter) ---
+        # --- Process for Isolated Trapezoid Mask ---
         hsv_mask_trap = cv2.inRange(frame_hsv, lower_hsv_mask2, upper_hsv_mask2)
         gray = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2GRAY)
         blur_gray = cv2.GaussianBlur(gray, (5,5), 0)
@@ -148,7 +172,7 @@ def process_video_for_shapes_and_steps(input_video_path, output_folder):
         if "isolated_trapezoid" in video_writers:
             video_writers["isolated_trapezoid"].write(final_trap_mask)
 
-        # --- Combine Masks (union_mask from Jupyter) ---
+        # --- Combine Masks ---
         union_mask = cv2.bitwise_or(clean_hsv_mask, final_trap_mask)
 
         # Create a visual representation of the combined mask
