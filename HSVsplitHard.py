@@ -15,7 +15,7 @@ from tqdm import tqdm
 #  |----- This is passed through a Gaussian blur to smooth the mask and prepare for another binary threshold to get rid of some of the very small noise pixels
 #  |----- I then use morphological operations to get rid of any remaining small noise pixels and patch any gaps around the polygons. This isn't entirely necessary
 #         in this case since the HSV mask is already quite accurate with brightly colored shapes, but in general this step is good to have.
-#  |----------- The morphological operations include an opening (erosion followed by dilation) and closing (dilation followed by erosion), both with a 9x9 circular kernel)
+#  |----------- The morphological operations include an opening (erosion followed by dilation) and closing (dilation followed by erosion), both with a 9x9 circular kernel
 #
 # --- The second HSV mask filters for unsaturated pixels of any value
 #  |----- This is grayscaled and passed through a Gaussian blur. The point of the Gaussian blur is to wash out the noise in the background and make it a lighter shade of
@@ -23,7 +23,7 @@ from tqdm import tqdm
 #  |----- This is passed through an Otsu's Thresholding filter. The goal here is to split the grayscale distribution at a value higher than the now washed background noise.
 #  |----- Now that we know where the polygons generally are, we union this binary mask with the original HSV mask and pass it through some morphological operations to 
 #         "rebuild" any potentially blurred edges from the previous steps and also get rid of any noise around the real edges
-#  |----- Next, contours are calculated and filtered based on area and shape using an aspect ratio to eleminate any long and thin noise structures that could have appeared
+#  |----- Next, contours are calculated and filtered based on area and shape using an aspect ratio to eliminate any long and thin noise structures that could have appeared
 #         by chance and gotten past the area threshold.
 #
 # --- Finally, these two binary masks are unioned and a final contour pass is used to get the outlines around the polygons. This is overlayed on top of the original frame
