@@ -8,6 +8,8 @@ In general the .ipynb files are used for initial testing and run simultenously o
 **Agnostic output (click thumbnail below to open drive video)**
 [![Watch the video](AgnosticThumbnail.png)](https://drive.google.com/file/d/1oBd2aLPGHCeCcN59NO4opk88B8lub-WB/view?usp=sharing)
 
+The other folders for the testruns have been omitted from this repo since they are too large to push.
+
 The main.ipynb and test.ipynb files contain the original code to process the easy image.
 
 The main.py file contains the original code for running on the easy video.
