@@ -6,7 +6,7 @@ In general the .ipynb files are used for initial testing and run simultenously o
 **The main file to look at is HSVsplitHard.py. It contains the final version of my code for processing the agnostic video. Read the description at the top of that file for a clear explanation of my processing method and instructions on how to run the code yourself if you want.**
 
 **Agnostic output**
-<video src="agnosticOutput1.mp4" width="320" height="240" controls></video>
+[![Watch the video](AgnosticThumbnail.png)](https://drive.google.com/file/d/1oBd2aLPGHCeCcN59NO4opk88B8lub-WB/view?usp=sharing)
 
 The main.ipynb and test.ipynb files contain the original code to process the easy image.
 
