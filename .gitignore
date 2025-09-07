@@ -210,3 +210,6 @@ __marimo__/
 # Input Data
 testruns/
 DynamicHard24.mp4
+testruns_multistep/
+processed_video_output/
+processed_video_output2/
